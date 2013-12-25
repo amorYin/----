@@ -93,11 +93,12 @@ static DCTabBarController *leveyTabBarController;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
-#ifdef __IPHONE_7
-        _containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
-#else
-        _containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 748)];
-#endif
+
+        if ([UIView iOSVersion]>=7.0) {
+            _containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+        }else{
+            _containerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 748)];
+        }
 		_transitionView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _containerView.frame.size.width, _containerView.frame.size.height)];
 		_transitionView.backgroundColor =  [UIColor groupTableViewBackgroundColor];
         _tabBar = [[RKTabView alloc] initWithFrame:CGRectMake(0, _containerView.frame.size.height - kTabBarHeight, _containerView.frame.size.width, kTabBarHeight)];
@@ -118,9 +119,9 @@ static DCTabBarController *leveyTabBarController;
 {
     NavigationHiddenController *theNavigationController;
 	theNavigationController = [[NavigationHiddenController alloc] initWithRootViewController:viewController];
-#ifndef __IPHONE_7
-    theNavigationController.wantsFullScreenLayout = YES;
-#endif
+    if ([UIView iOSVersion]<7.0) {
+        theNavigationController.wantsFullScreenLayout = YES;
+    }
 //    theNavigationController.view.frame = [[UIScreen mainScreen] applicationFrame];
 //    viewController.title = title;
     viewController.dcTabbatItem = [_tabBar.tabItems objectAtIndex:index];

@@ -105,4 +105,13 @@
     self.frame = frame;
 }
 
++ (float)iOSVersion {
+    static float version = 0.f;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        version = [[[UIDevice currentDevice] systemVersion] floatValue];
+    });
+    return version;
+}
+
 @end

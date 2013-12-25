@@ -187,11 +187,11 @@
         [self.navigationController.navigationBar addSubview:_slender_button];
     }
     
-#ifndef __IPHONE_7
+    if ([UIView iOSVersion]<7.0) {
     _slender_button.center = CGPointMake(AppFrame.height*0.5,self.navigationController.navigationBar.centerY+4);
-#else
+    }else{
     _slender_button.center = CGPointMake(AppFrame.height*0.5,self.navigationController.navigationBar.centerY*0.5);
-#endif
+    }
     self.scrollerView.contentSize = CGSizeMake(self.view.height*3, 648);
     // add the movie info
     if (!vedioInfo) {

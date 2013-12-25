@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>C0E7104B-CC6B-4F7E-A973-285722F32B21</string>
+	<key>IDESourceControlProjectName</key>
+	<string>DOCOvid</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>501D16D1-65E6-4CF7-AA05-79D7308589DC</key>
+		<string>https://github.com/amorYin/DOCOvid.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>DOCOvid.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>501D16D1-65E6-4CF7-AA05-79D7308589DC</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/amorYin/DOCOvid.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>501D16D1-65E6-4CF7-AA05-79D7308589DC</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>501D16D1-65E6-4CF7-AA05-79D7308589DC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>DOCOvid-1</string>
+		</dict>
+	</array>
+</dict>
+</plist>

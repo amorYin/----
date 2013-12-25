@@ -19,13 +19,13 @@
     self.rootviewController = [[DCTabBarController alloc] initWithNibName:nil bundle:nil];
     self.window.rootViewController = self.rootviewController;
     self.window.backgroundColor = [UIColor whiteColor];
-#ifndef __IPHONE_7
+    if ([UIView iOSVersion]<7.0) {
     [application setStatusBarStyle:UIStatusBarStyleBlackOpaque];
-    [[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@"navigationbars"] stretchableImageWithLeftCapWidth:1 topCapHeight:1] forBarMetrics:UIBarMetricsDefault];
-#else
-    [application setStatusBarStyle:UIStatusBarStyleLightContent];
-    [[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@"navigationbar"] stretchableImageWithLeftCapWidth:1 topCapHeight:1] forBarMetrics:UIBarMetricsDefault];
-#endif
+        [[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@"navigationbars"] stretchableImageWithLeftCapWidth:1 topCapHeight:1] forBarMetrics:UIBarMetricsDefault];
+    }else{
+        [application setStatusBarStyle:UIStatusBarStyleLightContent];
+        [[UINavigationBar appearance] setBackgroundImage:[[UIImage imageNamed:@"navigationbar"] stretchableImageWithLeftCapWidth:1 topCapHeight:1] forBarMetrics:UIBarMetricsDefault];
+    }
     [[UINavigationBar appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                                                   [UIColor whiteColor],UITextAttributeTextColor,
                                                                                   [UIColor grayColor],UITextAttributeTextShadowColor,
