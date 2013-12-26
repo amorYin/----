@@ -98,7 +98,14 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
 }
 
 # pragma mark - Setters
-
+- (void)setTitle:(NSString*)title
+{
+    if (!_controls) {
+        [[NSException exceptionWithName:@"ALMoviePlayerController Exception" reason:@"Set contentURL after setting controls." userInfo:nil] raise];
+    }
+    
+    self.controls.showTitle = title;
+}
 - (void)setContentURL:(NSURL *)contentURL  hidden:(BOOL)hidden{
     if (!_controls) {
         [[NSException exceptionWithName:@"ALMoviePlayerController Exception" reason:@"Set contentURL after setting controls." userInfo:nil] raise];

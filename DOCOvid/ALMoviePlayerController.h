@@ -28,6 +28,7 @@ static NSString * const ALMoviePlayerContentURLDidChangeNotification = @"ALMovie
 - (id)initWithFrame:(CGRect)frame;
 - (void)playHighVedio;
 - (void)playLowVedio;
+- (void)setTitle:(NSString*)title;
 @property (nonatomic, DD_WEAK) id<ALMoviePlayerControllerDelegate> delegate;
 @property (nonatomic, strong) ALMoviePlayerControls *controls;
 @property (nonatomic, strong) NSString *urlString;

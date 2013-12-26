@@ -46,12 +46,10 @@
 {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor blackColor];
-
     //create a player
-    self.moviePlayer = [[ALMoviePlayerController alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.moviePlayer = [[ALMoviePlayerController alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width)];
     self.moviePlayer.view.alpha = 0.f;
     self.moviePlayer.delegate = self; //IMPORTANT!
-    
     //create the controls
     ALMoviePlayerControls *movieControls = [[ALMoviePlayerControls alloc] initWithMoviePlayer:self.moviePlayer style:ALMoviePlayerControlsStyleDefault];
     //[movieControls setAdjustsFullscreenImage:NO];
@@ -68,6 +66,9 @@
     
     //THEN set contentURL
     [self.moviePlayer setUrlString:_url];
+    
+    //THEN set title
+    [self.moviePlayer setTitle:@"测试 视频"];
     
     //delay initial load so statusBarOrientation returns correct value
     double delayInSeconds = 0.3;

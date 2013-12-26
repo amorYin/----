@@ -1046,6 +1046,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = amor;
 				TargetAttributes = {
+					2D14A508186688F20057663D = {
+						DevelopmentTeam = QQL39D2SRA;
+					};
 					2D14A523186688F20057663D = {
 						TestTargetID = 2D14A508186688F20057663D;
 					};

@@ -99,6 +99,11 @@ extern NSString *const ALMovieExitNotification;
 @property (nonatomic, readonly, getter = isShowing) BOOL showing;
 
 /**
+ Are the controls currently showing on screen?
+ */
+@property (nonatomic, strong) NSString *showTitle;
+
+/**
  custom
  */
 

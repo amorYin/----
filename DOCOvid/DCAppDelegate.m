@@ -30,7 +30,7 @@
                                                                                   [UIColor whiteColor],UITextAttributeTextColor,
                                                                                   [UIColor grayColor],UITextAttributeTextShadowColor,
                                                                                   [NSValue valueWithUIOffset:UIOffsetMake(1, 0)],UITextAttributeTextShadowOffset,
-                                                                                  [UIFont systemFontOfSize:16],UITextAttributeFont,nil]];
+                                                                                  Cond_font(25),UITextAttributeFont,nil]];
 //    [[UITabBar appearance] setBackgroundImage:[UIImage imageNamed:@"bottomBar"]];
 //    [[UITabBar appearance] setTintColor:TINTCOLOR];
     [[UISegmentedControl appearance] setTintColor:TINTCOLOR];

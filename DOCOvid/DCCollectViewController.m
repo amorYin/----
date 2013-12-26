@@ -229,7 +229,12 @@
             tabletView.arrayData = arryData;
             tabletView.tableView.tag = 1000+index;
             contentTag[index]=YES;
-            tabletView.tableView.size = CGSizeMake( self.view.width, self.view.height-20);
+            if ([UIView iOSVersion]<7.0) {
+                tabletView.tableView.size = CGSizeMake( self.view.width, self.view.height-20);
+            }else{
+                tabletView.tableView.size = CGSizeMake( self.view.width, self.view.height-50);
+            }
+
             tabletView.tableView.origin = CGPointMake(0,0);
             tabletView.tableView.backgroundColor = [UIColor clearColor];
             tabletView.actionDelegate = self;
@@ -239,7 +244,12 @@
             collectView.arrayData = arryData;
             collectView.view.tag = 1000+index;
             contentTag[index]=YES;
-            collectView.view.size = CGSizeMake( self.view.width, self.view.height-20);
+            if ([UIView iOSVersion]<7.0) {
+                collectView.view.size = CGSizeMake( self.view.width, self.view.height-20);
+            }else{
+                collectView.view.size = CGSizeMake( self.view.width, self.view.height-50);
+            }
+            
             collectView.view.origin = CGPointMake(self.view.width,0);
             collectView.view.backgroundColor = [UIColor clearColor];
             collectView.actionDelegate = self;

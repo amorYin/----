@@ -66,6 +66,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.title = @"关于";
     // left navigationBar
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
     [btn setImage:[UIImage imageNamed:@"back_btn_n"] forState:UIControlStateNormal];

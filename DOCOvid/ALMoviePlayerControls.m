@@ -72,6 +72,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @property (nonatomic, strong) ALButton *collectButton;
 @property (nonatomic, strong) ALButton *shareButton;
 @property (nonatomic, strong) ALButton *downButton;
+@property (nonatomic, strong) UILabel *showTitleLable;
 
 @end
 
@@ -187,7 +188,16 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     _timeRemainingLabel.layer.shadowOffset = CGSizeMake(1.f, 1.f);
     _timeRemainingLabel.layer.shadowOpacity = 0.8f;
     
+    _showTitleLable = [[UILabel alloc] init];
+    _showTitleLable.backgroundColor = [UIColor clearColor];
+    _showTitleLable.font = Cond_font(25);
+    _showTitleLable.textColor = [UIColor whiteColor];
+    _showTitleLable.textAlignment = NSTextAlignmentCenter;
+    _showTitleLable.layer.shadowColor = [UIColor grayColor].CGColor;
+    _showTitleLable.layer.shadowOffset = CGSizeMake(1.f, 0.f);
+    
     if (_style == ALMoviePlayerControlsStyleFullscreen || (_style == ALMoviePlayerControlsStyleDefault && _moviePlayer.isFullscreen)) {
+        [_topBar addSubview:_showTitleLable];
         [_bottomBar addSubview:_durationSlider];
         [_bottomBar addSubview:_timeElapsedLabel];
         [_bottomBar addSubview:_timeRemainingLabel];
@@ -266,6 +276,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         [_seekForwardButton addTarget:self action:@selector(seekForwardPressed:) forControlEvents:UIControlEventTouchUpInside];
         [_bottomBar addSubview:_seekForwardButton];
         _seekForwardButton.hidden = YES;
+        _seekForwardButton.enabled = NO;
         
         _seekBackwardButton = [[ALButton alloc] init];
         [_seekBackwardButton setImage:[UIImage imageNamed:@"movieBackward.png"] forState:UIControlStateNormal];
@@ -274,6 +285,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         [_seekBackwardButton addTarget:self action:@selector(seekBackwardPressed:) forControlEvents:UIControlEventTouchUpInside];
         [_bottomBar addSubview:_seekBackwardButton];
         _seekBackwardButton.hidden = YES;
+        _seekBackwardButton.enabled = NO;
     }
     
     else if (_style == ALMoviePlayerControlsStyleEmbedded || (_style == ALMoviePlayerControlsStyleDefault && !_moviePlayer.isFullscreen)) {
@@ -387,6 +399,14 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         _barColor = barColor;
         [self.topBar setColor:barColor];
         [self.bottomBar setColor:barColor];
+    }
+}
+
+- (void)setShowTitle:(NSString *)showTitle
+{
+    if (_showTitle!=showTitle) {
+        _showTitle = showTitle;
+        [self.showTitleLable setText:_showTitle];
     }
 }
 
@@ -781,6 +801,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
     CGFloat playWidth = 44.f;
     CGFloat playHeight = 52.f;
     CGFloat labelWidth = 30.f;
+    CGFloat titleLableWidth = 300;
     
     if (self.style == ALMoviePlayerControlsStyleFullscreen || (self.style == ALMoviePlayerControlsStyleDefault && self.moviePlayer.isFullscreen)) {
         //top bar
@@ -793,8 +814,10 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         
         if ([UIDevice iOSVersion]<7.0) {
                 self.fullscreenButton.frame = CGRectMake(0, self.topBarHeight/2 - fullscreenHeight/2, fullscreenWidth, fullscreenHeight);
+                self.showTitleLable.frame = CGRectMake(CGRectGetWidth(self.topBar.frame)/2-titleLableWidth/2, 0, titleLableWidth, self.topBarHeight);
         }else{
                 self.fullscreenButton.frame = CGRectMake(0, self.topBarHeight/2 - fullscreenHeight/2+10, fullscreenWidth, fullscreenHeight);
+                self.showTitleLable.frame = CGRectMake(CGRectGetWidth(self.topBar.frame)/2-titleLableWidth/2, 10, titleLableWidth, self.topBarHeight);
         }
 
         
@@ -826,12 +849,13 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         
         self.highButton.frame = CGRectMake(CGRectGetMaxX(self.lowButton.frame)+paddingFromBezel, self.bottomBarHeight/2 - scaleHeight/2, hdbuttonWidth, scaleHeight);
         
-        self.scaleButton.frame = CGRectMake(self.bottomBar.frame.size.width - paddingFromBezel - scaleWidth, self.bottomBarHeight/2 - scaleHeight/2, scaleWidth, scaleHeight);
+        self.scaleButton.frame = CGRectMake(self.bottomBar.frame.size.width - paddingFromBezel - hdbuttonWidth, self.bottomBarHeight/2 - hdbuttonWidth/2, hdbuttonWidth, hdbuttonWidth);
         
-        self.timeRemainingLabel.frame = CGRectMake(self.scaleButton.frame.origin.x - paddingBetweenButtons - labelWidth, 0, labelWidth, self.bottomBarHeight);
+        self.timeRemainingLabel.frame = CGRectMake(self.scaleButton.frame.origin.x - paddingBetweenButtons - labelWidth, self.bottomBarHeight/2 - scaleHeight/2, labelWidth, scaleHeight);
         self.timeRemainingLabel.hidden = YES;
+        self.timeRemainingLabel.enabled = NO;
         
-        self.timeElapsedLabel.frame = CGRectMake(CGRectGetMinX(self.scaleButton.frame) - self.fullscreenButton.frame.size.width, 0, labelWidth, self.bottomBarHeight);
+        self.timeElapsedLabel.frame = CGRectMake(self.scaleButton.frame.origin.x - paddingBetweenButtons - labelWidth, self.bottomBarHeight/2 - scaleHeight/2, labelWidth, scaleHeight);
         
         self.alertButton.frame = CGRectMake(CGRectGetMinX(self.timeElapsedLabel.frame)-paddingFromBezel-fullscreenWidth, self.bottomBarHeight/2 - fullscreenWidth/2, fullscreenWidth, fullscreenWidth);
         
