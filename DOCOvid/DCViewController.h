@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "RKTabItem.h"
+extern  NSString *const UserLoadStautsNotifacation;
+
 @interface DCViewController : UIViewController
 @property(nonatomic,strong) UISegmentedControl *segment;
 @property(nonatomic,strong) UIScrollView *scrollerView;
 @property(nonatomic,strong) RKTabItem *dcTabbatItem;
+@property(nonatomic,assign) UserLoadStauts userStatus;
+
 @end

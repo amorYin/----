@@ -7,6 +7,7 @@
 //
 
 #import "DCViewController.h"
+NSString *const UserLoadStautsNotifacation = @"UserLoadedNotifacation";
 
 @interface DCViewController ()<UIScrollViewDelegate>
 
@@ -18,9 +19,63 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        _userStatus = [[ACUser instanseUser] userStatus];
         // Custom initialization
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(haddleUserStatus:) name:UserLoadStautsNotifacation object:nil];
     }
     return self;
+}
+
+- (void)userStautsDidChanged:(UserLoadStauts)status
+{
+    switch (status) {
+        case UserLoadStautsNone:
+            
+            break;
+        case UserLoadStautsWillLoadQQ:
+            
+            break;
+        case UserLoadStautsWillLoadSina:
+            
+            break;
+        case UserLoadStautsLoadingQQ:
+            
+            break;
+        case UserLoadStautsLoadingSina:
+            
+            break;
+        case UserLoadStautsLoadedSina:
+            
+            break;
+        case UserLoadStautsErrorQQ:
+            
+            break;
+        case UserLoadStautsErrorSina:
+            
+            break;
+            
+        default:
+            break;
+    }
+}
+
+- (void)haddeduserStauts:(NSValue*)statuv
+{
+    UserLoadStauts status;
+    [(NSValue*)statuv getValue:&status];
+    _userStatus = status;
+    statuv = nil;
+    if ([self respondsToSelector:@selector(userStautsDidChanged:)]) {
+        [self userStautsDidChanged:status];
+    }else{
+    }
+}
+
+- (void)haddleUserStatus:(NSNotification*)noti
+{
+    [self performSelector:@selector(haddeduserStauts:)
+               withObject:[noti object]
+               afterDelay:0.];
 }
 
 - (void)viewDidLoad
@@ -35,6 +90,15 @@
         [self.view addSubview:self.scrollerView];
         
     }
+}
+
+- (void)viewDidUnload
+{
+    [super viewDidUnload];
+    
+    self.scrollerView = nil;
+    self.dcTabbatItem = nil;
+    self.segment = nil;
 }
 
 - (void)didReceiveMemoryWarning

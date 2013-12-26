@@ -9,4 +9,6 @@
 #ifndef DOCOVedio_objectheaders_h
 #define DOCOVedio_objectheaders_h
 #import "UIView+DCView.h"
+#import "NSObject+Extend.h"
+#import "DCData.h"
 #endif

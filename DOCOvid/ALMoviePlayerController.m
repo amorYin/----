@@ -78,8 +78,11 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
     return self;
 }
 
+
 - (void)dealloc {
     _delegate = nil;
+    _controls = nil;
+    _urlString = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 

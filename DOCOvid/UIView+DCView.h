@@ -22,5 +22,4 @@
 @property (nonatomic) CGPoint origin;
 @property (nonatomic) CGSize size;
 
-+ (float)iOSVersion;
 @end

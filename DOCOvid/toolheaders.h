@@ -11,4 +11,6 @@
 #import "enums.h"
 #import "common.h"
 //#include "BaseTools.h"
+#import "Base64.h"
+#import "JSONKit.h"
 #endif

@@ -13,6 +13,7 @@
 #import "DCMPMoviePlayerView.h"
 #import "DCVedioViewDeleagate.h"
 #import "DCDropAnimation.h"
+#import "DCAboutViewController.h"
 
 @interface DCDownloadViewController ()<DCVedioViewDeleagate>
 {
@@ -29,10 +30,98 @@
     
     UIBarButtonItem *list_done;
     UIBarButtonItem *tab_done;
+    
+    UIImageView *placeHolder;//
+    UIButton *userLoginView;//login
 }
 @end
 
 @implementation DCDownloadViewController
+#pragma mark - abot view
+- (void)popAbout:(UIButton*)button
+{
+    for (id obj in button.subviews) {
+        if ([obj respondsToSelector:@selector(setHighlighted:)]) {
+            [obj setHighlighted:YES];
+        }
+    }
+    DCAboutViewController *about = [[[DCAboutViewController alloc] initWithNibName:nil bundle:nil] DD_AUTORELEASE];
+    about.hidesBottomBarWhenPushed = YES;
+    double delayInSeconds = 0.258;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.navigationController pushViewController:about animated:YES];
+        for (id obj in button.subviews) {
+            if ([obj respondsToSelector:@selector(setHighlighted:)]) {
+                [obj setHighlighted:NO];
+            }
+        }
+    });
+}
+#pragma mark - user agent
+- (void)showLoginlal:(BOOL)y
+{
+    if (y) {
+        if (!userLoginView) {
+            
+            userLoginView = [[UIButton alloc] initWithFrame:CGRectMake(self.view.height-300, 0, 300, 44)];
+            userLoginView.backgroundColor = [UIColor blackColor];
+            [userLoginView addTarget:self action:@selector(popAbout:) forControlEvents:UIControlEventTouchUpInside];
+            @autoreleasepool {
+                UIImageView *imgv = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(userLoginView.frame)-34, 10, 24, 24)];
+                [imgv setImage:[UIImage imageNamed:@"doco_login_btn_n"]];
+                [imgv setHighlightedImage:[UIImage imageNamed:@"doco_login_btn_h"]];
+                [userLoginView addSubview:imgv];
+                
+                UILabel *lal = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetMinX(imgv.frame)-10, 44)];
+                lal.text = @"登录后您可在不同设备间同步收藏记录";
+                lal.backgroundColor = [UIColor clearColor];
+                lal.textColor = [UIColor lightGrayColor];
+                lal.highlightedTextColor = [UIColor whiteColor];
+                lal.font = Cond_font(14);
+                lal.textAlignment = NSTextAlignmentRight;
+                [userLoginView addSubview:lal];
+            }
+            
+        }
+        [self.view addSubview:userLoginView];
+    }else{
+        [userLoginView removeFromSuperview];
+    }
+}
+//loadUser
+- (void)userStautsDidChanged:(UserLoadStauts)status
+{
+    switch (status) {
+        case UserLoadStautsNone:
+            [self showLoginlal:YES];
+            break;
+        case UserLoadStautsWillLoadQQ:
+            [self showLoginlal:NO];
+            break;
+        case UserLoadStautsWillLoadSina:
+            [self showLoginlal:NO];
+            break;
+        case UserLoadStautsLoadingQQ:
+            [self showLoginlal:NO];
+            break;
+        case UserLoadStautsLoadingSina:
+            [self showLoginlal:NO];
+            break;
+        case UserLoadStautsLoadedSina:
+            [self showLoginlal:NO];
+            break;
+        case UserLoadStautsErrorQQ:
+            [self showLoginlal:NO];
+            break;
+        case UserLoadStautsErrorSina:
+            [self showLoginlal:NO];
+            break;
+            [self showLoginlal:NO];
+        default:
+            break;
+    }
+}
 #pragma mark - Action
 //  play
 - (void)play:(id)sender
@@ -88,8 +177,7 @@
 #pragma mark - UIBarButtonItem
 - (void)setRightBarButton:(BOOL)y
 {
-    @autoreleasepool {
-        
+    if (y) {
         if (!edit_done) {
             UIButton *tabbtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 48)];
             [tabbtn setTitle:@"编  辑" forState:UIControlStateNormal];
@@ -120,34 +208,42 @@
         
         [self.navigationItem
          setRightBarButtonItems:[NSArray arrayWithObject:edit_done] animated:YES];
+    }else{
+        [self.navigationItem
+         setRightBarButtonItems:nil animated:YES];
     }
+    
 }
 
-- (void)setLeftBarButton
+- (void)setLeftBarButton:(BOOL)y
 {
-    if (!tab_done) {
-        UIButton *tabbtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
-        [tabbtn setImage:[UIImage imageNamed:@"tab_btn_n"] forState:UIControlStateNormal];
-        [tabbtn setImage:[UIImage imageNamed:@"tab_btn_h"] forState:UIControlStateHighlighted];
-        [tabbtn setImage:[UIImage imageNamed:@"tab_btn_h"] forState:UIControlStateSelected];
-        [tabbtn addTarget:self action:@selector(tabSelect:) forControlEvents:UIControlEventTouchUpInside];
-        tab_done = [[UIBarButtonItem alloc] initWithCustomView:tabbtn];
-        [tabbtn DD_AUTORELEASE];
+    if (y) {
+        if (!tab_done) {
+            UIButton *tabbtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
+            [tabbtn setImage:[UIImage imageNamed:@"tab_btn_n"] forState:UIControlStateNormal];
+            [tabbtn setImage:[UIImage imageNamed:@"tab_btn_h"] forState:UIControlStateHighlighted];
+            [tabbtn setImage:[UIImage imageNamed:@"tab_btn_h"] forState:UIControlStateSelected];
+            [tabbtn addTarget:self action:@selector(tabSelect:) forControlEvents:UIControlEventTouchUpInside];
+            tab_done = [[UIBarButtonItem alloc] initWithCustomView:tabbtn];
+            [tabbtn DD_AUTORELEASE];
+        }
+        
+        if (!list_done) {
+            UIButton *tabbtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
+            [tabbtn setImage:[UIImage imageNamed:@"list_btn_n"] forState:UIControlStateNormal];
+            [tabbtn setImage:[UIImage imageNamed:@"list_btn_h"] forState:UIControlStateHighlighted];
+            [tabbtn setImage:[UIImage imageNamed:@"list_btn_h"] forState:UIControlStateSelected];
+            [tabbtn addTarget:self action:@selector(listSelect:) forControlEvents:UIControlEventTouchUpInside];
+            list_done = [[UIBarButtonItem alloc] initWithCustomView:tabbtn];
+            [tabbtn DD_AUTORELEASE];
+        }
+        [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:list_done,tab_done, nil] animated:YES];
+    }else{
+        [self.navigationItem setLeftBarButtonItems:nil animated:YES];
     }
-    
-    if (!list_done) {
-        UIButton *tabbtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
-        [tabbtn setImage:[UIImage imageNamed:@"list_btn_n"] forState:UIControlStateNormal];
-        [tabbtn setImage:[UIImage imageNamed:@"list_btn_h"] forState:UIControlStateHighlighted];
-        [tabbtn setImage:[UIImage imageNamed:@"list_btn_h"] forState:UIControlStateSelected];
-        [tabbtn addTarget:self action:@selector(listSelect:) forControlEvents:UIControlEventTouchUpInside];
-        list_done = [[UIBarButtonItem alloc] initWithCustomView:tabbtn];
-        [tabbtn DD_AUTORELEASE];
-    }
-    
-    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:list_done,tab_done, nil]];
     
 }
+
 
 - (void)listSelect:(UIButton*)btn
 {
@@ -288,11 +384,51 @@
     return self;
 }
 
+//loadData
+- (void)layoutSublayersOfByData:(NSDictionary*)dic
+{
+    if (dic.count<1) {
+        if (!placeHolder)
+            placeHolder= [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"collect_content_null_bg"]];
+        [self.view addSubview:placeHolder];
+        [self setRightBarButton:NO];
+        [self setLeftBarButton:NO];
+    }else{
+        if (placeHolder){
+            [placeHolder  removeFromSuperview];
+            placeHolder = nil;
+        }
+        [self setRightBarButton:YES];
+        [self setLeftBarButton:YES];
+        //refresh
+        if (!showDeviceInfo) {
+            showDeviceInfo = [[DCShowDeviceInfoView alloc] initWithFrame:CGRectMake(0, self.view.height-60-49, self.view.width, 40)];
+            
+            [self.view addSubview:showDeviceInfo];
+        }
+        //    //segment
+        //    if (!self.segment) {
+        //            self.segment = [[UISegmentedControl alloc] initWithItems:@[@"普通",@"网状"]];
+        //            self.segment.frame = CGRectMake(0, 0, 200, 33);
+        //
+        //            [self.segment addTarget:self action:@selector(changeNewView:) forControlEvents:UIControlEventValueChanged];
+        //            [self.navigationController.navigationBar addSubview:self.segment];
+        //    }
+        //    self.segment.center = CGPointMake(AppFrame.height*0.5,self.navigationController.navigationBar.centerY*0.5);
+        self.scrollerView.contentSize = CGSizeMake(self.view.width*2, self.view.height-49-64);
+        
+        // delay load the number view
+        [self performSelector:@selector(load) withObject:nil afterDelay:0.1];
+    }
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     //
     self.title = @"缓存";
+    /*
     //initlied data
     arryData = [NSMutableArray arrayWithObjects:@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19", nil];
 	// Do any additional setup after loading the view.
@@ -319,7 +455,15 @@
     
     // delay load the number view
     [self performSelector:@selector(load) withObject:nil afterDelay:0.1];
+     */
 
+    //initlied data
+    arryData = [NSMutableArray arrayWithObjects:@"0",@"1",@"2",@"3",@"4",@"5",@"6",@"7",@"8",@"9",@"10",@"11",@"12",@"13",@"14",@"15",@"16",@"17",@"18",@"19", nil];
+	// Do any additional setup after loading the view.
+    //set top buttons
+    [self performSelector:@selector(layoutSublayersOfByData:) withObject:arryData afterDelay:0.];
+    //判断用户
+    [self userStautsDidChanged:self.userStatus];
 }
 
 - (void)load
