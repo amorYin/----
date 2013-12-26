@@ -188,9 +188,9 @@
     }
     
     if ([UIView iOSVersion]<7.0) {
-    _slender_button.center = CGPointMake(AppFrame.height*0.5,self.navigationController.navigationBar.centerY+4);
+        _slender_button.center = CGPointMake(AppFrame.height*0.5,self.navigationController. navigationBar.centerY+4);
     }else{
-    _slender_button.center = CGPointMake(AppFrame.height*0.5,self.navigationController.navigationBar.centerY*0.5);
+        _slender_button.center = CGPointMake(AppFrame.height*0.5,self.navigationController.navigationBar.centerY*0.5+10);
     }
     self.scrollerView.contentSize = CGSizeMake(self.view.height*3, 648);
     // add the movie info
