@@ -66,9 +66,8 @@ static const NSTimeInterval fullscreenAnimationDuration = 0.3;
         self.view.frame = frame;
         self.view.backgroundColor = [UIColor blackColor];
         [self setControlStyle:MPMovieControlStyleNone];
-        
         _movieFullscreen = NO;
-        
+        self.useApplicationAudioSession = YES;
         if (!_movieBackgroundView) {
             _movieBackgroundView = [[UIView alloc] init];
             _movieBackgroundView.alpha = 0.f;

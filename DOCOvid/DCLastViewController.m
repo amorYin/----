@@ -187,11 +187,6 @@
         [self.navigationController.navigationBar addSubview:_slender_button];
     }
     
-    if ([UIView iOSVersion]<7.0) {
-        _slender_button.center = CGPointMake(AppFrame.height*0.5,self.navigationController. navigationBar.centerY+4);
-    }else{
-        _slender_button.center = CGPointMake(AppFrame.height*0.5,self.navigationController.navigationBar.centerY*0.5);
-    }
     self.scrollerView.contentSize = CGSizeMake(self.view.height*3, 648);
     // add the movie info
     if (!vedioInfo) {
@@ -241,6 +236,12 @@
 
 - (void)load
 {
+    //
+    if ([UIView iOSVersion]<7.0) {
+        _slender_button.center = CGPointMake(AppFrame.height*0.5,self.navigationController. navigationBar.centerY+4);
+    }else{
+        _slender_button.center = CGPointMake(AppFrame.height*0.5,self.navigationController.navigationBar.centerY*0.5);
+    }
     //load movie
     [self reachableViewAtIndex:0 scroller:YES];
 }

@@ -222,9 +222,9 @@
     if (y) {
         if (!tab_done) {
             UIButton *tabbtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
-            [tabbtn setImage:[UIImage imageNamed:@"tab_btn_n"] forState:UIControlStateNormal];
-            [tabbtn setImage:[UIImage imageNamed:@"tab_btn_h"] forState:UIControlStateHighlighted];
-            [tabbtn setImage:[UIImage imageNamed:@"tab_btn_h"] forState:UIControlStateSelected];
+            [tabbtn setImage:[UIImage imageNamed:@"tab_btn_h"] forState:UIControlStateNormal];
+            [tabbtn setImage:[UIImage imageNamed:@"tab_btn_n"] forState:UIControlStateHighlighted];
+            [tabbtn setImage:[UIImage imageNamed:@"tab_btn_n"] forState:UIControlStateSelected];
             [tabbtn addTarget:self action:@selector(tabSelect:) forControlEvents:UIControlEventTouchUpInside];
             tab_done = [[UIBarButtonItem alloc] initWithCustomView:tabbtn];
             [tabbtn DD_AUTORELEASE];
@@ -232,9 +232,9 @@
         
         if (!list_done) {
             UIButton *tabbtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
-            [tabbtn setImage:[UIImage imageNamed:@"list_btn_n"] forState:UIControlStateNormal];
-            [tabbtn setImage:[UIImage imageNamed:@"list_btn_h"] forState:UIControlStateHighlighted];
-            [tabbtn setImage:[UIImage imageNamed:@"list_btn_h"] forState:UIControlStateSelected];
+            [tabbtn setImage:[UIImage imageNamed:@"list_btn_h"] forState:UIControlStateNormal];
+            [tabbtn setImage:[UIImage imageNamed:@"list_btn_n"] forState:UIControlStateHighlighted];
+            [tabbtn setImage:[UIImage imageNamed:@"list_btn_n"] forState:UIControlStateSelected];
             [tabbtn addTarget:self action:@selector(listSelect:) forControlEvents:UIControlEventTouchUpInside];
             list_done = [[UIBarButtonItem alloc] initWithCustomView:tabbtn];
             [tabbtn DD_AUTORELEASE];
@@ -280,11 +280,13 @@
         [tabletView  deletePituresInRange:YES callback:^(NSMutableArray *data) {
             //if data change reset,nesscery?
             if (data.count<arryData.count) arryData = data;
+            if (data.count<1) [self performSelector:@selector(layoutSublayersOfByData:) withObject:Nil afterDelay:0.0];
         }];
     }else{
         [collectView deletePituresInRange:YES callback:^(NSMutableArray *data) {
             //if data change reset,nesscery?
             if (data.count<arryData.count) arryData = data;
+            if (data.count<1) [self performSelector:@selector(layoutSublayersOfByData:) withObject:Nil afterDelay:0.0];
         }];
     }
     

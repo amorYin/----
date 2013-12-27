@@ -8,6 +8,8 @@
 
 #import "DCAboutViewController.h"
 #import "DCShareView.h"
+#import "DCLoginView.h"
+#import "DCAdviceView.h"
 
 @interface DCAboutViewController ()
 {
@@ -39,13 +41,15 @@
 #pragma mark - user action
 - (void) userLogin:(id)sender
 {
-    DCShareView *aler = [[[DCShareView alloc] init] DD_AUTORELEASE];
+    DCLoginView *aler = [[[DCLoginView alloc] init] DD_AUTORELEASE];
     [aler show];
+    
 }
 
 - (void) userAdvice:(id)sender
 {
-
+    DCAdviceView *aler = [[[DCAdviceView alloc] init] DD_AUTORELEASE];
+    [aler show];
 }
 
 - (void) userVote:(id)sender
@@ -141,7 +145,7 @@
         [adviceBtn setTitle:@"意见反馈" forState:UIControlStateNormal];
         [adviceBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [adviceBtn.titleLabel setFont:Euph_font(14.)];
-        [loginBtn addTarget:self action:@selector(userAdvice:) forControlEvents:UIControlEventTouchUpInside];
+        [adviceBtn addTarget:self action:@selector(userAdvice:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:adviceBtn];
     }
     
@@ -162,7 +166,7 @@
         [voteBtn setTitle:@"评  分" forState:UIControlStateNormal];
         [voteBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [voteBtn.titleLabel setFont:Euph_font(14.)];
-        [loginBtn addTarget:self action:@selector(userVote:) forControlEvents:UIControlEventTouchUpInside];
+        [voteBtn addTarget:self action:@selector(userVote:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:voteBtn];
     }
     

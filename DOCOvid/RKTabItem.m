@@ -125,4 +125,9 @@
     }
 }
 
+- (void)updateBadge
+{
+    [self setBadgeValue:_badgeValue];
+}
+
 @end

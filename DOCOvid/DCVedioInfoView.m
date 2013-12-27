@@ -53,7 +53,7 @@
 {
     questionBtn.selected = !questionBtn.selected;
     if (!visiable) {
-        visiable = [[UIImageView alloc] initWithFrame:CGRectMake(40, 110, 190, 40)];
+        visiable = [[UIImageView alloc] initWithFrame:CGRectMake(30, 110, 190, 40)];
         visiable.image = [[UIImage imageNamed:@"span_str"] stretchableImageWithLeftCapWidth:2 topCapHeight:20];
         [self addSubview:visiable];
         
@@ -169,7 +169,7 @@
     }
     
     if (!questionBtn) {
-        questionBtn = [[UIButton alloc] initWithFrame:CGRectMake(190, 78, 38, 38)];
+        questionBtn = [[UIButton alloc] initWithFrame:CGRectMake(140, 78, 38, 38)];
         [questionBtn setImage:[UIImage imageNamed:@"ques_btn_n"] forState:UIControlStateNormal];
         [questionBtn setImage:[UIImage imageNamed:@"ques_btn_h"] forState:UIControlStateSelected];
         [questionBtn setImage:[UIImage imageNamed:@"ques_btn_h"] forState:UIControlStateHighlighted];

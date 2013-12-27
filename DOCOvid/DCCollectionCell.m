@@ -10,6 +10,7 @@
 @interface DCCollectionCell ()
 {
     UIImageView *_bgImge;
+    UIImage *_img;
 }
 @end
 @implementation DCCollectionCell
@@ -18,6 +19,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self.contentView setFrame:CGRectMake(0, 0, cellSizeWidth, cellSizeHight)];
+        [self layoutSubviews];
     }
     return self;
 }
@@ -50,7 +52,8 @@
 
 -(void)setImage:(UIImage *)image
 {
-    self.imageView.image = image;
+    _img = image;
+    
 }
 
 - (void)setHiddenBgImge:(BOOL)hiddenBgImge
@@ -111,8 +114,8 @@
     }
     
     //defalut value
+    self.imageView.image = _img;
     self.titleLal.text = @"测试影片";
     self.deslal.text = @"片长：10小时45分23秒";
-    
 }
 @end

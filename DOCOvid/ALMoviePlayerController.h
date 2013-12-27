@@ -15,9 +15,9 @@ static NSString * const ALMoviePlayerContentURLDidChangeNotification = @"ALMovie
 @optional
 - (void)movieTimedOut;
 - (void)moviePrepareToPlay;
-- (void)shareVedio;
-- (void)downloadVedio;
-- (void)collectVedio;
+- (void)movieActionShare;
+- (void)movieActionDownload;
+- (void)movieActionCollect;
 @required
 - (void)moviePlayerWillMoveFromWindow;
 @end

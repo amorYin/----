@@ -40,5 +40,6 @@ typedef enum {
                        selector:(SEL)selector;
 
 - (void)switchState;
+- (void)updateBadge;
 
 @end

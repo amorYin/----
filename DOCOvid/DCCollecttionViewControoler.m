@@ -155,6 +155,12 @@ static NSString *CellIdentifierLandscape = @"CellIdentifierLandscape";
     [self setCellSelection:cell selected:cellSelected];
     return cell;
 }
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    DCCollectionCell *cellt = (DCCollectionCell *)cell;
+    
+    cellt.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png",[_arrayData objectAtIndex: [indexPath row] ]]];
+}
 //
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {

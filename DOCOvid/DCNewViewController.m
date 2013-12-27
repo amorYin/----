@@ -58,7 +58,7 @@
     //set the test back color
     NSArray *arr1 = @[@"2.jpg",@"3.jpg",@"1.jpg"];
     //set the invalidate index
-    index = index>=arr1.count?(arr1.count-1):index;
+    index = index>=test_dics.count?(test_dics.count-1):index;
 //        self.segment.selectedSegmentIndex = index;
     if (contentTag[index] == NO) {
         DCMovieInfoController *dayPaly;
@@ -196,7 +196,7 @@
     
     if (!_slender_button) {
         _slender_button = [[slender_button alloc] initWithFrame:CGRectMake(0, 0, 210, 33) action:self];
-        _slender_button.titles = [NSArray arrayWithObjects:@"明天",@"后天",@"大后天",nil];
+        _slender_button.titles = [NSArray arrayWithObjects:@"明天",@"后天",nil];
         _slender_button.selectBgImg = [UIImage imageNamed:@"select_btn_h"];
         [self.navigationController.navigationBar addSubview:_slender_button];
     }
@@ -205,7 +205,6 @@
     }else{
         _slender_button.center = CGPointMake(AppFrame.height*0.5,self.navigationController.navigationBar.centerY*0.5);
     }
-    self.scrollerView.contentSize = CGSizeMake(self.view.height*3, 648);
     
     // add the movie info
     if (!vedioInfo) {
@@ -238,7 +237,7 @@
                   ,@"资本主义民主共和国",@"key8"
                   ,@"详情：",@"key9"
                   ,@"中国现有的两大突出阶层：日益壮大的新贵消费群体和数亿挣扎在生存线上的穷人。而他们也是中美资本链上关键的两环。高端人群消费从美国进口的商品，而很多商品则来自于美国设在中国的工厂，由庞大的中国廉价劳动力制造而成。以片中一个生动例子来说明：售价数千美金的品牌沙发，其木质零件由中国工人在本土制作，之后运回美国由本土工人完成组装、装饰和质检，最后再将成品出口到中国，被中国高端家庭购买。\r\n\r\n     在主持人看来，中国目前对全球经济做出的最大贡献就是提供廉价劳动力。美国工厂质检员的一小时薪酬20美元足够一位中国工厂质检员的周薪。更不用提中国庞大的农民工群体，相对种田的收益，他们外出打工每天挣几美元就已经知足了。美国的品牌，美国的创意，中国的廉价劳动力，中国的消费市场——这就是中国资本主义？至少影片折射出了这个意思。",@"key10"
-                  , nil],
+                  , nil]/*,
                  [NSDictionary dictionaryWithObjectsAndKeys:@"12.26",@"key1"
                   ,@"未上架",@"key2"
                   ,@"后天上线，请耐心等待",@"key3"
@@ -249,7 +248,7 @@
                   ,@"工人炼狱",@"key8"
                   ,@"详情：",@"key9"
                   ,@"「这份工作本身就是死亡。死亡一直在我们身边围绕。我们必须克服恐惧，不然没办法做这个工作。」导演格拉沃格记录了地球上五个不同地点炼狱般的景象，让观众看到二十一世纪的今日，依然有劳工日复一日地在死亡与生命的交界处讨口饭吃。乌克兰的矿工非法潜入地层缝隙中挖煤。一不留神便可能被活埋在不见天日的地底下。印尼的搬运工从硫磺坑里用肉身扛起上百斤的重担，对观光客而言诡谲不似人间的壮景，对这些挑夫来说是确实散发着地狱气味的火坑。奈及利亚的露天屠宰场则是牛羊牲口通往炼狱的奈何桥，刀往脖子一抹腿一蹬，生命以最血淋淋的方式存在或消灭。但在后工业文明的德国，我们却看到退役的炼钢厂在夜里点上灯火，变成了另类的游乐园。前卫音乐大师约翰·佐恩的配乐更有画龙点睛之效。",@"key10"
-                  , nil]
+                  , nil]*/
                  , nil];
     
     // delay load the number view
@@ -258,6 +257,8 @@
 
 - (void)load
 {
+    //scroller
+    self.scrollerView.contentSize = CGSizeMake(self.view.width*test_dics.count, 648);
     //load movie
     [self reachableViewAtIndex:0 scroller:YES];
 }

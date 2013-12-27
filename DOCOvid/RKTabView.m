@@ -263,6 +263,8 @@
     } else {
         tab.backgroundColor = [UIColor clearColor];
     }
+ 
+    [tabItem updateBadge];
 }
 
 - (void)setTabContent:(RKTabItem *)tabItem {

@@ -63,6 +63,7 @@ static DCDropAnimation *_dropAnimation;
     _dropAnimation->newbadge = new;
     [_dropAnimation addShopFinished:_dropAnimation->newbadge];
 }
+
 //加入动画
 - (void)addDropAnimation:(UIButton*)obj{
     //加入动画效果
@@ -75,6 +76,21 @@ static DCDropAnimation *_dropAnimation;
     [[UIApplication sharedApplication].keyWindow.layer addSublayer:transitionLayer];
     [CATransaction commit];
     
+    CAKeyframeAnimation* animation1;
+    animation1 = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
+    
+    animation1.duration = 0;
+    animation1.repeatCount = 1;
+    animation1.removedOnCompletion = NO;
+    animation1.fillMode = kCAFillModeForwards;
+    
+    
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.scale"];
+    animation.values = @[@(1.), @(0.8), @(0.5), @(0.1)];
+    animation.keyTimes = @[@(0), @(0.4), @(0.6), @(1)];
+    animation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear], [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut]];
+    animation.delegate = self;
+    
     //路径曲线
     UIBezierPath *movePath = [UIBezierPath bezierPath];
     [movePath moveToPoint:transitionLayer.position];
@@ -82,36 +98,53 @@ static DCDropAnimation *_dropAnimation;
     switch (_droptype) {
         case DCDropAnimationDownload:
         {
+            animation.duration = 0.7;
+            
             if ([[UIApplication sharedApplication] statusBarOrientation]==UIInterfaceOrientationLandscapeLeft)
             {
-                CGPoint toPoint = CGPointMake(712, 362);
+                CGPoint toPoint = CGPointMake(762, 310);
                 [movePath addQuadCurveToPoint:toPoint
                                  controlPoint:CGPointMake(transitionLayer.position.x-200,transitionLayer.position.y-200)];
+                
+                animation1.values = [NSArray arrayWithObjects:
+                                     [NSNumber numberWithFloat:(-90.0 / 180.0) * M_PI], nil];
             }else{
-                CGPoint toPoint = CGPointMake(60, 652);
+                CGPoint toPoint = CGPointMake(6, 710);
                 [movePath addQuadCurveToPoint:toPoint
                                  controlPoint:CGPointMake(transitionLayer.position.x+200,transitionLayer.position.y+200)];
+                
+                animation1.values = [NSArray arrayWithObjects:
+                                     [NSNumber numberWithFloat:(90.0 / 180.0) * M_PI], nil];
             }
         }
             break;
         case DCDropAnimationCollect:
         {
+            animation.duration = 1.2;
             if ([[UIApplication sharedApplication] statusBarOrientation]==UIInterfaceOrientationLandscapeLeft)
             {
-                CGPoint toPoint = CGPointMake(712, 466);
+                CGPoint toPoint = CGPointMake(762, 454);
                 [movePath addQuadCurveToPoint:toPoint
                                  controlPoint:CGPointMake(transitionLayer.position.x-200,transitionLayer.position.y-200)];
+                animation1.values = [NSArray arrayWithObjects:
+                                     [NSNumber numberWithFloat:(-90.0 / 180.0) * M_PI], nil];
             }else{
-                CGPoint toPoint = CGPointMake(60, 562);
+                CGPoint toPoint = CGPointMake(6, 570);
                 [movePath addQuadCurveToPoint:toPoint
                                  controlPoint:CGPointMake(transitionLayer.position.x+200,transitionLayer.position.y+200)];
+                
+                animation1.values = [NSArray arrayWithObjects:
+                                     [NSNumber numberWithFloat:(90.0 / 180.0) * M_PI], nil];
             }
         }
             break;
         default:
             break;
     }
-
+    
+    [transitionLayer addAnimation:animation forKey:@"bouce"];
+//    [transitionLayer addAnimation:animation1 forKey:@"transform.rotation.z"];
+    
     //关键帧
     CAKeyframeAnimation *positionAnimation = [CAKeyframeAnimation animationWithKeyPath:@"position"];
     positionAnimation.path = movePath.CGPath;
@@ -119,8 +152,8 @@ static DCDropAnimation *_dropAnimation;
     
     CAAnimationGroup *group = [CAAnimationGroup animation];
     group.beginTime = CACurrentMediaTime();
-    group.duration = 0.7;
-    group.animations = [NSArray arrayWithObjects:positionAnimation,nil];
+    group.duration = 0.8;
+    group.animations = [NSArray arrayWithObjects:animation1,positionAnimation,nil];
     group.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
     group.delegate = self;
     group.fillMode = kCAFillModeForwards;
@@ -153,25 +186,25 @@ static DCDropAnimation *_dropAnimation;
 - (void)addShopFinished:(NSInteger)new{
         targetBar.badgeValue = new;
     
-//        CALayer *transitionLayer1 = [[CALayer alloc] init];
-//        
-//        CABasicAnimation *opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-//        opacityAnimation.fromValue = [NSNumber numberWithFloat:1.0];
-//        opacityAnimation.toValue = [NSNumber numberWithFloat:0];
-//        
-//        CABasicAnimation *rotateAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.y"];
-//        rotateAnimation.fromValue = [NSNumber numberWithFloat:0 * M_PI];
-//        rotateAnimation.toValue = [NSNumber numberWithFloat:2 * M_PI];
-//        
-//        CAAnimationGroup *group = [CAAnimationGroup animation];
-//        group.beginTime = CACurrentMediaTime();
-//        group.duration = 0.3;
-//        group.animations = [NSArray arrayWithObjects:opacityAnimation,nil];
-//        group.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-//        group.delegate = self;
-//        group.fillMode = kCAFillModeForwards;
-//        group.removedOnCompletion = NO;
-//        group.autoreverses= NO;
-//        [transitionLayer1 addAnimation:group forKey:@"opacity"];
+        CALayer *transitionLayer1 = [[CALayer alloc] init];
+        
+        CABasicAnimation *opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+        opacityAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+        opacityAnimation.toValue = [NSNumber numberWithFloat:0];
+        
+        CABasicAnimation *rotateAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.y"];
+        rotateAnimation.fromValue = [NSNumber numberWithFloat:0 * M_PI];
+        rotateAnimation.toValue = [NSNumber numberWithFloat:2 * M_PI];
+        
+        CAAnimationGroup *group = [CAAnimationGroup animation];
+        group.beginTime = CACurrentMediaTime();
+        group.duration = 0.3;
+        group.animations = [NSArray arrayWithObjects:opacityAnimation,nil];
+        group.timingFunction=[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        group.delegate = self;
+        group.fillMode = kCAFillModeForwards;
+        group.removedOnCompletion = NO;
+        group.autoreverses= NO;
+        [transitionLayer1 addAnimation:group forKey:@"opacity"];
 }
 @end

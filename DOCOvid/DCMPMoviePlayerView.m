@@ -8,6 +8,7 @@
 
 #import "DCMPMoviePlayerView.h"
 #import "ALMoviePlayerController.h"
+#import "DCShareView.h"
 @interface DCMPMoviePlayerView()<ALMoviePlayerControllerDelegate>
 {
     ALMoviePlayerController *moviePlayer;
@@ -20,70 +21,7 @@
 @end
 @implementation DCMPMoviePlayerView
 @synthesize  moviePlayer;
-
-- (void)setImg:(UIImage *)img
-{
-    _img = nil;
-    _img = img;
-    
-    if (!_imageView) {
-        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height)];
-        [self.view addSubview:_imageView];
-    }
-    _imageView.image = _img;
-}
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor blackColor];
-    //create a player
-    self.moviePlayer = [[ALMoviePlayerController alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width)];
-    self.moviePlayer.view.alpha = 0.f;
-    self.moviePlayer.delegate = self; //IMPORTANT!
-    //create the controls
-    ALMoviePlayerControls *movieControls = [[ALMoviePlayerControls alloc] initWithMoviePlayer:self.moviePlayer style:ALMoviePlayerControlsStyleDefault];
-    //[movieControls setAdjustsFullscreenImage:NO];
-    [movieControls setBarColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bottomBar"]]];
-    [movieControls fullscreenPressed:nil];
-    [movieControls setTimeRemainingDecrements:NO];
-    [movieControls setFadeDelay:2.0];
-    //[movieControls setBarHeight:100.f];
-    //[movieControls setSeekRate:2.f];
-    
-    //assign controls
-    [self.moviePlayer setControls:movieControls];
-    [self.view addSubview:self.moviePlayer.view];
-    
-    //THEN set contentURL
-    [self.moviePlayer setUrlString:_url];
-    
-    //THEN set title
-    [self.moviePlayer setTitle:@"测试 视频"];
-    
-    //delay initial load so statusBarOrientation returns correct value
-    double delayInSeconds = 0.3;
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [self configureViewForOrientation:[UIApplication sharedApplication].statusBarOrientation];
-        [UIView animateWithDuration:0.3 delay:0.0 options:0 animations:^{
-            self.moviePlayer.view.alpha = 1.f;
-        } completion:^(BOOL finished) {
-            self.navigationItem.leftBarButtonItem.enabled = YES;
-            self.navigationItem.rightBarButtonItem.enabled = YES;
-        }];
-    });
-
-}
+#pragma mark - action
 - (void)playURLString:(NSString*)url
 {
     /*
@@ -141,7 +79,88 @@
     [self.moviePlayer play];
 }
 
+#pragma mark - setts
+- (void)setImg:(UIImage *)img
+{
+    _img = nil;
+    _img = img;
+    
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, self.view.height)];
+        [self.view addSubview:_imageView];
+    }
+    _imageView.image = _img;
+}
 
+#pragma mark -viewcontroller
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        // Custom initialization
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor blackColor];
+    //create a player
+    self.moviePlayer = [[ALMoviePlayerController alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width)];
+    self.moviePlayer.view.alpha = 0.f;
+    self.moviePlayer.delegate = self; //IMPORTANT!
+    //create the controls
+    ALMoviePlayerControls *movieControls = [[ALMoviePlayerControls alloc] initWithMoviePlayer:self.moviePlayer style:ALMoviePlayerControlsStyleDefault];
+    //[movieControls setAdjustsFullscreenImage:NO];
+    [movieControls setBarColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"bottomBar"]]];
+    [movieControls fullscreenPressed:nil];
+    [movieControls setTimeRemainingDecrements:NO];
+    [movieControls setFadeDelay:2.0];
+    //[movieControls setBarHeight:100.f];
+    //[movieControls setSeekRate:2.f];
+    
+    //assign controls
+    [self.moviePlayer setControls:movieControls];
+    [self.view addSubview:self.moviePlayer.view];
+    
+    //THEN set contentURL
+    [self.moviePlayer setUrlString:_url];
+    
+    //THEN set title
+    [self.moviePlayer setTitle:@"测试 视频"];
+    
+    //delay initial load so statusBarOrientation returns correct value
+    double delayInSeconds = 0.3;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self configureViewForOrientation:[UIApplication sharedApplication].statusBarOrientation];
+        [UIView animateWithDuration:0.3 delay:0.0 options:0 animations:^{
+            self.moviePlayer.view.alpha = 1.f;
+        } completion:^(BOOL finished) {
+            self.navigationItem.leftBarButtonItem.enabled = YES;
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }];
+    });
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return YES;
+}
+
+-(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    [self configureViewForOrientation:toInterfaceOrientation];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - moviedelegate
 //IMPORTANT!
 - (void)moviePlayerWillMoveFromWindow {
     /*
@@ -200,6 +219,23 @@
     });
     
 }
+
+- (void)movieActionShare
+{
+    DCShareView *aler = [[[DCShareView alloc] init] DD_AUTORELEASE];
+    [aler show];
+}
+
+- (void)movieActionDownload
+{
+
+}
+
+- (void)movieActionCollect
+{
+
+}
+
 - (void)movieTimedOut {
     NSLog(@"MOVIE TIMED OUT");
 }
@@ -208,18 +244,4 @@
     return YES;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return YES;
-}
-
--(void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
-    [self configureViewForOrientation:toInterfaceOrientation];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 @end

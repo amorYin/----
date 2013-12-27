@@ -41,6 +41,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 @interface ALMoviePlayerControls () <ALAirplayViewDelegate, ALButtonDelegate> {
     @private
     int windowSubviews;
+    float volumValue;
 }
 
 @property (nonatomic, DD_WEAK) ALMoviePlayerController *moviePlayer;
@@ -224,7 +225,7 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
         [_alertButton setImage:[UIImage imageNamed:@"alert_btn_n"] forState:UIControlStateNormal];
         [_alertButton setImage:[UIImage imageNamed:@"alert_btn_h"] forState:UIControlStateHighlighted];
         [_alertButton setImage:[UIImage imageNamed:@"alert_btn_h"] forState:UIControlStateSelected];
-        _alertButton.userInteractionEnabled = NO;
+        [_alertButton addTarget:self action:@selector(alertAction:) forControlEvents:UIControlEventTouchUpInside];
         [_bottomBar addSubview:_alertButton];
         
         _collectButton = [[ALButton alloc] init];
@@ -412,24 +413,36 @@ static const CGFloat iPhoneScreenPortraitWidth = 320.f;
 
 # pragma mark - UIControl/Touch Events
 
+- (void)alertAction:(ALButton*)btn
+{
+    self.alertButton.selected = !self.alertButton.selected;
+    if (self.alertButton.selected) {
+        volumValue = [MPMusicPlayerController applicationMusicPlayer].volume;
+        [[MPMusicPlayerController applicationMusicPlayer] setVolume:0.0];
+    }else{
+        volumValue = (volumValue==0)?0.5:volumValue;
+        [[MPMusicPlayerController applicationMusicPlayer] setVolume:volumValue];
+    }
+}
+
 - (void)collectVedio:(ALButton*)btn
 {
-    if ([self.moviePlayer.delegate respondsToSelector:@selector(collectVedio)]) {
-        [self.moviePlayer.delegate collectVedio];
+    if ([self.moviePlayer.delegate respondsToSelector:@selector(movieActionCollect)]) {
+        [self.moviePlayer.delegate movieActionCollect];
     }
 }
 
 - (void)shareVedio:(ALButton*)btn
 {
-    if ([self.moviePlayer.delegate respondsToSelector:@selector(shareVedio)]) {
-        [self.moviePlayer.delegate shareVedio];
+    if ([self.moviePlayer.delegate respondsToSelector:@selector(movieActionShare)]) {
+        [self.moviePlayer.delegate movieActionShare];
     }
 }
 
 - (void)downVedio:(ALButton*)btn
 {
-    if ([self.moviePlayer.delegate respondsToSelector:@selector(downloadVedio)]) {
-        [self.moviePlayer.delegate downloadVedio];
+    if ([self.moviePlayer.delegate respondsToSelector:@selector(movieActionDownload)]) {
+        [self.moviePlayer.delegate movieActionDownload];
     }
 }
 

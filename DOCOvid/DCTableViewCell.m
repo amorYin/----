@@ -11,6 +11,7 @@
 {
     UIImageView *_bgImge;
     UIImageView *_seperatorImg;
+    BOOL _ishidden;
 }
 @end
 @implementation DCTableViewCell
@@ -32,11 +33,7 @@
 
 - (void)setHiddenBgImge:(BOOL)hiddenBgImge
 {
-    if (hiddenBgImge) {
-        _bgImge.hidden = YES;
-    }else{
-        _bgImge.hidden = NO;
-    }
+    _ishidden = hiddenBgImge;
 }
 
 - (void)awakeFromNib
@@ -86,7 +83,6 @@
     if (!_bgImge) {
         _bgImge = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"clip_boders"]] DD_AUTORELEASE];
         _bgImge.origin = CGPointMake(44, -14);
-        _bgImge.hidden = YES;
         [self addSubview:_bgImge];
     }
     
@@ -166,6 +162,7 @@
     }
     
     //default value
+    _bgImge.hidden = _ishidden;
     self.titlelal.text = @"测试影片";
     self.timelal.text = @"片长：10小时45分23秒";
     self.cellectlal.text = @"收藏时间：2013-13-11";
