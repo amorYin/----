@@ -8,6 +8,7 @@
 
 #import "DCAdviceView.h"
 #import "DCPopView.h"
+//#import "DCMessageView.h"
 @interface DCAdviceView()<UITextFieldDelegate,UITextViewDelegate>
 {
     DCPopView *_popView;
@@ -57,20 +58,28 @@
 #pragma mark -UITextViewDelegate
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
+    if ([textView.text isEqualToString:@"请输入您的意见和建议......（300字以内）"]) {
+        textView.text = @"";
+        textView.textColor = [UIColor whiteColor];
+    }
+    
     return YES;
 }
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
-    
+    if (textView.text.length<1){
+        textView.text = @"请输入您的意见和建议......（300字以内）";
+        textView.textColor = [UIColor lightGrayColor];
+    }
+        
 }
 #pragma mark - acyon
 - (void)sendAdvice:(id)sender
 {
-    NSLog(@"_content.text:%@",_content.text);
-        NSLog(@"_phone.text:%@",_phone.text);
-        NSLog(@"_email.text:%@",_email.text);
-    NSLog(@"%f",_popView.center.x);
-//    [_popView dismissAnimated:YES];
+    
+    [_popView dismissAnimated:YES];
+//    DCMessageView *uu = [[DCMessageView alloc] initWithTitle:Nil message:@"添加成功"];
+//    [uu show];
 }
 - (void) show
 {
@@ -88,6 +97,7 @@
                     _content.text = @"请输入您的意见和建议......（300字以内）";
                     _content.keyboardType = UIKeyboardTypeDefault;
                     _content.delegate = self;
+                    _content.textColor = [UIColor lightGrayColor];
                     _content.backgroundColor = [UIColor clearColor];
                     [popView addSubview:_content];
                 }
@@ -108,6 +118,7 @@
                     _phone = [[UITextField alloc] initWithFrame:CGRectMake(28, CGRectGetMaxY(_content.frame)+45, 330, 30)];
                     _phone.keyboardType = UIKeyboardTypeNumberPad;
                     _phone.delegate = self;
+                    _phone.textColor = [UIColor whiteColor];
                     _phone.backgroundColor = [UIColor clearColor];
                     [popView addSubview:_phone];
                 }
@@ -127,6 +138,7 @@
                     _email = [[UITextField alloc] initWithFrame:CGRectMake(28, CGRectGetMaxY(_phone.frame)+45, 330, 30)];
                     _email.keyboardType = UIKeyboardTypeEmailAddress;
                     _email.delegate = self;
+                    _email.textColor = [UIColor whiteColor];
                     _email.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"text_input_bg"] stretchableImageWithLeftCapWidth:168 topCapHeight:15]];
                     [popView addSubview:_email];
                 }
