@@ -56,7 +56,7 @@
     }];
 }
 #pragma mark -UITextViewDelegate
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
     if ([textView.text isEqualToString:@"请输入您的意见和建议......（300字以内）"]) {
         textView.text = @"";
@@ -139,7 +139,7 @@
                     _email.keyboardType = UIKeyboardTypeEmailAddress;
                     _email.delegate = self;
                     _email.textColor = [UIColor whiteColor];
-                    _email.backgroundColor = [UIColor colorWithPatternImage:[[UIImage imageNamed:@"text_input_bg"] stretchableImageWithLeftCapWidth:168 topCapHeight:15]];
+                    _email.backgroundColor = [UIColor clearColor];
                     [popView addSubview:_email];
                 }
                 
