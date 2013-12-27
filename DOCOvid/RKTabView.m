@@ -253,7 +253,7 @@
     
     //selected tab background color
     if (tabItem.tabState == TabStateEnabled) {
-        
+        tabItem.badgeValue = 0;
         //Apply tabItem selecred background color. If it is nil then apply tabview selected background color (if not nil).
         if (tabItem.enabledBackgroundColor) {
             tab.backgroundColor = tabItem.enabledBackgroundColor;
